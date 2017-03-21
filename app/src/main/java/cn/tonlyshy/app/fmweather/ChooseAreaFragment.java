@@ -1,12 +1,15 @@
 package cn.tonlyshy.app.fmweather;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
+import org.litepal.tablemanager.Connector;
+import org.litepal.util.DBUtility;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -89,6 +94,7 @@ public class ChooseAreaFragment extends Fragment {
         listView=(ListView) view.findViewById(R.id.list_view_city);
         arrayAdapter=new ArrayAdapter<String>(MyApplication.getContext(),android.R.layout.simple_list_item_1,dataList);
         listView.setAdapter(arrayAdapter);
+        listView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         cityList=new ArrayList<>();
         countyList=new ArrayList<>();
         provinceList=new ArrayList<>();
@@ -143,7 +149,7 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCities(){
         titleText.setText(selectedProvince.getProvinceName());
         backButton.setVisibility(View.VISIBLE);
-        cityList= DataSupport.where("provinceName = ?",selectedProvince.getProvinceName()).find(City.class);
+        cityList= DataSupport.where("provinceName = ? ",selectedProvince.getProvinceName()).find(City.class);
         if(cityList.size()>0){
             dataList.clear();
             for(City city:cityList){
@@ -159,12 +165,13 @@ public class ChooseAreaFragment extends Fragment {
     }
     private void queryCounties(){
         titleText.setText(selectedCity.getCityName());
+        Log.d("Choose", "queryCounties: selectedCity.getCityName()"+selectedCity.getCityName());
         backButton.setVisibility(View.VISIBLE);
         countyList= DataSupport.where("cityName = ?",selectedCity.getCityName()).find(County.class);
         if(countyList.size()>0){
             dataList.clear();
             for(County county :countyList){
-                dataList.add(county.getCountryName());
+                dataList.add(county.getCountyName());
             }
             arrayAdapter.notifyDataSetChanged();
             listView.setSelection(0);
@@ -192,15 +199,19 @@ public class ChooseAreaFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                Log.d("MainActivity", "onResponse: type="+type);
                 String responseText=response.body().string();
                 boolean result=false;
                 if("province".equals(type)){
                     result= Utility.handleProvinceResponse(responseText);
                 }else if("city".equals(type)){
+                    Log.d("MainActivity", "onResponse: selectedProvince.getProvinceName()="+selectedProvince.getProvinceName());
                     result=Utility.handleCityResponse(responseText,selectedProvince.getProvinceName());
                 }else if("county".equals(type)){
+                    Log.d("MainActivity", "onResponse: selectedCity.getCityName()="+selectedCity.getCityName());
                     result=Utility.handleCountyResponse(responseText,selectedCity.getCityName());
                 }
+                Log.d("MainActivity", "onResponse: result="+result);
                 if(result){
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -223,15 +234,23 @@ public class ChooseAreaFragment extends Fragment {
     private void showProgressDialog(){
         if(progressDialog==null){
             progressDialog=new ProgressDialog(getActivity());
-            progressDialog.setMessage("正在获取城市信息...");
-            progressDialog.setCancelable(false);
+            switch (currentLevel){
+                case LEVEL_CITY:
+                    progressDialog.setMessage("正在获取...");
+                    break;
+                case LEVEL_PROVINCE:
+                    progressDialog.setMessage("正在获取城市信息...");
+                    break;
+            }
+            progressDialog.setCancelable(true);
+            progressDialog.show();
         }
-        progressDialog.show();
     }
 
     private void closeProgressDialog(){
         if(progressDialog!=null){
             progressDialog.dismiss();
+            progressDialog=null;
         }
     }
 }

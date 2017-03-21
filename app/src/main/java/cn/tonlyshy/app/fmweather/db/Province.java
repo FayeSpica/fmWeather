@@ -8,15 +8,6 @@ import org.litepal.crud.DataSupport;
 
 public class Province extends DataSupport {
     private String provinceName;
-    private int id;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
     public String getProvinceName() {
         return provinceName;
     }

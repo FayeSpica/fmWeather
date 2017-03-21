@@ -40,7 +40,7 @@ public class Utility {
                 e.printStackTrace();
             }
         }
-        return false;
+        return true;
     }
 
     /*
@@ -52,20 +52,20 @@ public class Utility {
                 JSONArray allCities=new JSONArray(response);
                 for(int i=0;i<allCities.length();i++) {
                     JSONObject cityObject=allCities.getJSONObject(i);
-                    List<City> existCity= DataSupport.where("cityName = ?",cityObject.getString("provinceZh")).find(City.class);
+                    List<City> existCity= DataSupport.where("cityName = ?",cityObject.getString("leaderZh")).find(City.class);
                     if(existCity.size()>0){
                         continue;
                     }
                     City city = new City();
-                    city.setCityName(cityObject.getString("cityZh"));
-                    city.setProvinceName("provinceZh");
+                    city.setCityName(cityObject.getString("leaderZh"));
+                    city.setProvinceName(cityObject.getString("provinceZh"));
                     city.save();
                 }
             }catch (JSONException e){
                 e.printStackTrace();
             }
         }
-        return false;
+        return true;
     }
 
     /*
@@ -77,12 +77,12 @@ public class Utility {
                 JSONArray allCounties=new JSONArray(response);
                 for(int i=0;i<allCounties.length();i++) {
                     JSONObject countyObject=allCounties.getJSONObject(i);
-                    List<City> existCounty= DataSupport.where("cityName = ?",countyObject.getString("provinceZh")).find(City.class);
+                    List<County> existCounty= DataSupport.where("countyName = ?",countyObject.getString("cityZh")).find(County.class);
                     if(existCounty.size()>0){
                         continue;
                     }
                     County county = new County();
-                    county.setCountryName(countyObject.getString("cityZh"));
+                    county.setCountyName(countyObject.getString("cityZh"));
                     county.setCityName(countyObject.getString("leaderZh"));
                     county.setWeatherCode(countyObject.getString("id"));
                     county.save();
@@ -91,6 +91,6 @@ public class Utility {
                 e.printStackTrace();
             }
         }
-        return false;
+        return true;
     }
 }
