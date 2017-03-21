@@ -1,6 +1,6 @@
-# <img width="128" height="128" src="https://github.com/SteiensGate/fmWeather/raw/master/Screenshots/fmweather.png"/>
 # fmWeather
-A simple weather app
+<img width="128" height="128" src="https://github.com/SteiensGate/fmWeather/raw/master/Screenshots/fmweather.png"/></br>
+A simple weather app</br>
 简单的天气App, MaterialDesign界面设计
 ## ScreenShots
 <div>
