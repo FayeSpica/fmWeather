@@ -15,4 +15,4 @@ A simple weather app
 
 ### 1.0 
   2017/3/22
-  - 实现基本功能: 城市选择，显示天气([API](http://www.heweather.com/))
+  - 实现基本功能: 城市选择，显示天气([API:和风天气](http://www.heweather.com/))
