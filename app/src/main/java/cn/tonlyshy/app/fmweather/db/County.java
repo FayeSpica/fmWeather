@@ -10,7 +10,15 @@ public class County extends DataSupport {
     private String countryName;
     private String weatherCode;
     private String cityName;
+    private int id;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCountryName() {
         return countryName;
