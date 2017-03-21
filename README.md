@@ -12,10 +12,11 @@ A simple weather app
  - [LitePal](https://github.com/LitePalFramework/LitePal)
  - [okhttp3](https://github.com/square/okhttp)
  - [glide](https://github.com/bumptech/glide)
+ - [API:和风天气](http://www.heweather.com/)
 
 ## Change Log
 
 
 ### 1.0 
   2017/3/22
-  - 实现基本功能: 城市选择，显示天气([API:和风天气](http://www.heweather.com/))
+  - 实现基本功能: 城市选择，显示天气
