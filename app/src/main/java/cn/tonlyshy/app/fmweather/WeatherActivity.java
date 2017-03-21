@@ -58,7 +58,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     public SwipeRefreshLayout swipeRefreshLayout;
 
-    private String mWeatherId;
+    public String mWeatherId;
 
     public DrawerLayout drawerLayout;
 
@@ -198,6 +198,10 @@ public class WeatherActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawers();
+        }else{
+            super.onBackPressed();
+        }
     }
 }

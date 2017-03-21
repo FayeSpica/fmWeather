@@ -106,6 +106,33 @@ public class ChooseAreaFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        View v=getView();
+        //Back pressed Logic for fragment
+        v.setFocusableInTouchMode(true);
+        v.requestFocus();
+        v.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        /*
+                        getActivity().finish();
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);*/
+                        if(currentLevel==LEVEL_CITY){
+                            queryProvinces();
+                        }else if(currentLevel==LEVEL_COUNTY){
+                            queryCities();
+                        }else{
+                            getActivity().onBackPressed();
+                        }
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -125,6 +152,7 @@ public class ChooseAreaFragment extends Fragment {
                     }else if(getActivity() instanceof WeatherActivity){
                         WeatherActivity activity=(WeatherActivity)getActivity();
                         activity.drawerLayout.closeDrawers();
+                        activity.mWeatherId=weatherId;
                         activity.swipeRefreshLayout.setRefreshing(true);
                         activity.requestWeather(weatherId);
                     }

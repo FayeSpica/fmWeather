@@ -53,13 +53,14 @@
 
         </fragment>
     </android.support.v4.widget.DrawerLayout>
+
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            app:srcCompat="@mipmap/ic_launcher"
-            android:id="@+id/fab"
-            app:elevation="8dp"/>
+            app:elevation="8dp"
+            app:srcCompat="@drawable/desk_switch" />
     </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>
