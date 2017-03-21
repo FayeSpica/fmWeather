@@ -1,6 +1,9 @@
 package cn.tonlyshy.app.fmweather.util;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.WebView;
 
 import com.google.gson.Gson;
@@ -10,8 +13,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
+import cn.tonlyshy.app.fmweather.MainActivity;
+import cn.tonlyshy.app.fmweather.MyApplication;
 import cn.tonlyshy.app.fmweather.db.City;
 import cn.tonlyshy.app.fmweather.db.County;
 import cn.tonlyshy.app.fmweather.db.Province;
@@ -32,12 +41,9 @@ public class Utility {
                 JSONArray allProvinces=new JSONArray(response);
                 for(int i=0;i<allProvinces.length();i++) {
                     JSONObject provinceObject=allProvinces.getJSONObject(i);
-                    List<Province> existProvince= DataSupport.where("provinceName = ?",provinceObject.getString("provinceZh")).find(Province.class);
-                    if(existProvince.size()>0){
-                        continue;
-                    }
                     Province province = new Province();
-                    province.setProvinceName(provinceObject.getString("provinceZh"));
+                    province.setProvinceName(provinceObject.getString("name"));
+                    province.setId(provinceObject.getInt("id"));
                     province.save();
                 }
             }catch (JSONException e){
@@ -50,20 +56,18 @@ public class Utility {
     /*
     * City Data
     * */
-    public static boolean handleCityResponse(String response,String provinceName){
+    public static boolean handleCityResponse(String response,int provinceId){
         if(!TextUtils.isEmpty(response)){
             try{
                 JSONArray allCities=new JSONArray(response);
                 for(int i=0;i<allCities.length();i++) {
                     JSONObject cityObject=allCities.getJSONObject(i);
-                    List<City> existCity= DataSupport.where("cityName = ?",cityObject.getString("leaderZh")).find(City.class);
-                    if(existCity.size()>0){
-                        continue;
-                    }
                     City city = new City();
-                    city.setCityName(cityObject.getString("leaderZh"));
-                    city.setProvinceName(cityObject.getString("provinceZh"));
+                    city.setCityName(cityObject.getString("name"));
+                    city.setCityId(cityObject.getInt("id"));
+                    city.setProvinceId(provinceId);
                     city.save();
+                    Log.i("handleCityResponse", "provinceId="+provinceId+"/"+city.getCityId()+"(name="+city.getCityName());
                 }
             }catch (JSONException e){
                 e.printStackTrace();
@@ -75,20 +79,16 @@ public class Utility {
     /*
     * County Data
     * */
-    public static boolean handleCountyResponse(String response,String cityName){
+    public static boolean handleCountyResponse(String response,int cityId){
         if(!TextUtils.isEmpty(response)){
             try{
                 JSONArray allCounties=new JSONArray(response);
                 for(int i=0;i<allCounties.length();i++) {
                     JSONObject countyObject=allCounties.getJSONObject(i);
-                    List<County> existCounty= DataSupport.where("countyName = ?",countyObject.getString("cityZh")).find(County.class);
-                    if(existCounty.size()>0){
-                        continue;
-                    }
                     County county = new County();
-                    county.setCountyName(countyObject.getString("cityZh"));
-                    county.setCityName(countyObject.getString("leaderZh"));
-                    county.setWeatherCode(countyObject.getString("id"));
+                    county.setCountyName(countyObject.getString("name"));
+                    county.setCityId(cityId);
+                    county.setWeatherCode(countyObject.getString("weather_id"));
                     county.save();
                 }
             }catch (JSONException e){
