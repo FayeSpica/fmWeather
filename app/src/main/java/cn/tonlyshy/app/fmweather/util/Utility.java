@@ -1,6 +1,9 @@
 package cn.tonlyshy.app.fmweather.util;
 
 import android.text.TextUtils;
+import android.webkit.WebView;
+
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +15,7 @@ import java.util.List;
 import cn.tonlyshy.app.fmweather.db.City;
 import cn.tonlyshy.app.fmweather.db.County;
 import cn.tonlyshy.app.fmweather.db.Province;
+import cn.tonlyshy.app.fmweather.gson.Weather;
 
 /**
  * Created by liaowm5 on 17/3/21.
@@ -93,4 +97,22 @@ public class Utility {
         }
         return true;
     }
+
+
+    /*
+    * JSON to Weather.class
+    * */
+
+    public static Weather handleWeatherResponse(String response){
+        try{
+            JSONObject jsonObject=new JSONObject(response);
+            JSONArray jsonArray=jsonObject.getJSONArray("HeWeather5");
+            String weatherContent=jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent,Weather.class);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
