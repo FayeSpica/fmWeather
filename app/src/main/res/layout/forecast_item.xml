@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="15dp">
@@ -10,15 +11,22 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:textAlignment="textStart"
-        android:textColor="#FFF" />
+        android:textColor="@color/textColor" />
 
     <TextView
         android:id="@+id/info_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:textAlignment="center"
-        android:textColor="#FFF" />
+        android:textColor="@color/textColor" />
+
+    <ImageView
+        android:id="@+id/weather_cond_imageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_weight="0.5"
+        app:srcCompat="@drawable/weathericon100" />
 
     <TextView
         android:id="@+id/max_text"
@@ -26,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textAlignment="textEnd"
-        android:textColor="#FFF" />
+        android:textColor="@color/textColor" />
 
     <TextView
         android:id="@+id/min_text"
@@ -34,5 +42,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textAlignment="textEnd"
-        android:textColor="#FFF" />
+        android:textColor="@color/textColor" />
 </LinearLayout>

@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -100,6 +102,7 @@ public class ChooseAreaFragment extends Fragment {
         arrayAdapter=new ArrayAdapter<String>(MyApplication.getContext(),android.R.layout.simple_list_item_1,dataList);
         listView.setAdapter(arrayAdapter);
         listView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+
         cityList=new ArrayList<>();
         countyList=new ArrayList<>();
         provinceList=new ArrayList<>();

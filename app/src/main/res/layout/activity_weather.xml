@@ -5,6 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/bing_pic"
+        android:scaleType="centerCrop"/>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/swip_refresh">
+
                     <ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -28,7 +35,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:fitsSystemWindows="true">
 
                             <include layout="@layout/title"/>
 
@@ -64,4 +72,5 @@
             app:elevation="8dp"
             app:srcCompat="@drawable/desk_switch" />
     </android.support.design.widget.CoordinatorLayout>
+
 </FrameLayout>

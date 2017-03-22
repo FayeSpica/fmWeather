@@ -1,23 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp">
+    android:layout_margin="15dp"
+    android:orientation="vertical">
+<android.support.v7.widget.CardView
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    app:cardBackgroundColor="@color/cardColor"
+    app:cardCornerRadius="5dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/degree_text"
-        android:layout_gravity="end"
-        android:textColor="#FFF"
-        android:textSize="60sp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/weather_info_text"
-        android:layout_gravity="end"
-        android:textColor="#FFF"
-        android:textSize="20sp"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/big_cond_imageCardView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="40dp"
+            android:background="#00000000"
+            android:src="@drawable/weathericon100" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/degree_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="false"
+            android:layout_centerInParent="false"
+            android:textColor="@color/textColor"
+            android:textSize="60sp"
+            tools:text="INFO" />
+
+        <TextView
+            android:id="@+id/weather_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="false"
+            android:textAlignment="textEnd"
+            android:textColor="@color/textColor"
+            android:textSize="20sp"
+            tools:text="INFO" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+</android.support.design.widget.CoordinatorLayout>
