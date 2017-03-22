@@ -186,7 +186,7 @@ public class ChooseAreaFragment extends Fragment {
             listView.setSelection(0);
             currentLevel=LEVEL_PROVINCE;
         }else{
-            String address="http://guolin.tech/api/china";
+            String address="http://www.tonlyshy.cn:8080/static/weather/china.json";
             queryFromServer(address,"province");
             Log.i("query", "queryProvinces: "+address);
         }
@@ -204,7 +204,7 @@ public class ChooseAreaFragment extends Fragment {
             listView.setSelection(0);
             currentLevel=LEVEL_CITY;
         }else{
-            String address="http://guolin.tech/api/china/"+selectedProvince.getId();
+            String address="http://www.tonlyshy.cn:8080/static/weather/"+selectedProvince.getId()+".json";
             queryFromServer(address,"city");
             Log.i("query", "queryCities: "+address);
         }
@@ -223,7 +223,7 @@ public class ChooseAreaFragment extends Fragment {
             listView.setSelection(0);
             currentLevel=LEVEL_COUNTY;
         }else{
-            String address="http://guolin.tech/api/china/"+selectedProvince.getId()+"/"+selectedCity.getCityId();
+            String address="http://www.tonlyshy.cn:8080/static/weather/"+"conty_"+selectedCity.getCityId()+".json";
             Log.i("query", "queryCounties: "+address);
             queryFromServer(address,"county");
         }
