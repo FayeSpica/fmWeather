@@ -212,6 +212,9 @@ public class WeatherActivity extends AppCompatActivity {
         degreeText.setText(degree);
         weatherInfoText.setText(weatherInfo);
         forecastLayout.removeAllViews();
+        String imgCondName="weathericon"+String.valueOf(weather.now.more.code);
+        int imgCondId = getResources().getIdentifier(imgCondName, "drawable", "cn.tonlyshy.app.fmweather");
+        weatherCondImageView.setImageResource(imgCondId);
 
         if(weather!=null&&"ok".equals(weather.status)){
             Intent intent=new Intent(this, AutoUpdateService.class);
@@ -265,6 +268,7 @@ public class WeatherActivity extends AppCompatActivity {
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         fab=(FloatingActionButton)findViewById(R.id.fab);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
+        weatherCondImageView=(ImageView)findViewById(R.id.big_cond_imageCardView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
