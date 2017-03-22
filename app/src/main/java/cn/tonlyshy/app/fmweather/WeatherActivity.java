@@ -37,6 +37,7 @@ import java.io.IOException;
 import cn.tonlyshy.app.fmweather.db.County;
 import cn.tonlyshy.app.fmweather.gson.Forecast;
 import cn.tonlyshy.app.fmweather.gson.Weather;
+import cn.tonlyshy.app.fmweather.service.AutoUpdateService;
 import cn.tonlyshy.app.fmweather.util.HttpUtil;
 import cn.tonlyshy.app.fmweather.util.Utility;
 import okhttp3.Call;
@@ -124,6 +125,7 @@ public class WeatherActivity extends AppCompatActivity {
         }
     }
 
+
     private void loadBingPic() {
         String requestBingPic="http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1";
         HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
@@ -210,6 +212,11 @@ public class WeatherActivity extends AppCompatActivity {
         degreeText.setText(degree);
         weatherInfoText.setText(weatherInfo);
         forecastLayout.removeAllViews();
+
+        if(weather!=null&&"ok".equals(weather.status)){
+            Intent intent=new Intent(this, AutoUpdateService.class);
+            startService(intent);
+        }
 
         for(Forecast forecast:weather.forecastList){
             View view= LayoutInflater.from(this).inflate(R.layout.forecast_item,forecastLayout,false);
