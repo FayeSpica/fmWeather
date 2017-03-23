@@ -1,6 +1,7 @@
 package cn.tonlyshy.app.fmweather;
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -8,8 +9,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
+import android.support.annotation.AnimatorRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.transition.Transition;
+import android.support.v4.content.IntentCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,7 +25,9 @@ import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +47,7 @@ import cn.tonlyshy.app.fmweather.db.County;
 import cn.tonlyshy.app.fmweather.gson.Forecast;
 import cn.tonlyshy.app.fmweather.gson.Weather;
 import cn.tonlyshy.app.fmweather.service.AutoUpdateService;
+import cn.tonlyshy.app.fmweather.util.DialogChooseFragment;
 import cn.tonlyshy.app.fmweather.util.HttpUtil;
 import cn.tonlyshy.app.fmweather.util.Utility;
 import okhttp3.Call;
@@ -84,8 +94,18 @@ public class WeatherActivity extends AppCompatActivity {
 
     private ImageView bingPicImg;
 
+    private ImageView nav_bing_pic;
+
+    private NavigationView navigationView;
+
+    private SharedPreferences prefs;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        int themeId=prefs.getInt("theme",R.style.AppTheme);
+        if(themeId!=R.style.AppTheme){
+            this.setTheme(themeId);
+        }
         super.onCreate(savedInstanceState);
         if(Build.VERSION.SDK_INT>=21){
             View decorView =getWindow().getDecorView();
@@ -94,7 +114,6 @@ public class WeatherActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_weather);
         initializeUI();
-        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather",null);
         if(weatherString!=null){
             Weather weather= Utility.handleWeatherResponse(weatherString);
@@ -125,8 +144,7 @@ public class WeatherActivity extends AppCompatActivity {
         }
     }
 
-
-    private void loadBingPic() {
+    public void loadBingPic() {
         String requestBingPic="http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1";
         HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
             @Override
@@ -149,10 +167,14 @@ public class WeatherActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                         editor.putString("bing_pic",bingPicAddress);
                         editor.apply();
-                        runOnUiThread(new Runnable() {
+                        runOnUiThread(new Runnable(){
                             @Override
                             public void run() {
-                                Glide.with(WeatherActivity.this).load(bingPicAddress).into(bingPicImg);
+                                //View v=navigationView.getHeaderView(R.layout.nav_header);
+                                nav_bing_pic=(ImageView)navigationView.findViewById(R.id.nav_bing_pic);
+                                if(nav_bing_pic!=null) {
+                                    Glide.with(WeatherActivity.this).load(bingPicAddress).into(nav_bing_pic);
+                                }
                             }
                         });
                     }catch (JSONException e){
@@ -265,21 +287,77 @@ public class WeatherActivity extends AppCompatActivity {
         carWashText=(TextView)findViewById(R.id.car_wash_text);
         sportText=(TextView)findViewById(R.id.sport_text);
         swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swip_refresh);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        //swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         fab=(FloatingActionButton)findViewById(R.id.fab);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
         weatherCondImageView=(ImageView)findViewById(R.id.big_cond_imageCardView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
+                //drawerLayout.openDrawer(GravityCompat.START);
+                int themeId=prefs.getInt("theme",R.style.AppTheme);
+                if(themeId!=R.style.AppTheme){
+                    setTheme(themeId);
+                    themeId=R.style.AppTheme;
+                }else{
+                    setTheme(R.style.Red);
+                    themeId=R.style.Red;
+                }
+                SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
+                editor.putInt("theme",themeId);
+                editor.apply();
+                //recreate();
+                Intent intent=new Intent(WeatherActivity.this,WeatherActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION|IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                finish();
             }
         });
+        navigationView=(NavigationView)findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_download);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //mDrawerLayout.closeDrawers();
+                switch (item.getItemId()){
+                    case R.id.nav_chooseCity:
+                        DialogChooseFragment fragment=new DialogChooseFragment();
+                        fragment.show(getFragmentManager(), "loginDialog");
+                        drawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_change_theme:
+                        int themeId=prefs.getInt("theme",R.style.AppTheme);
+                        if(themeId!=R.style.AppTheme){
+                            setTheme(themeId);
+                            themeId=R.style.AppTheme;
+                        }else{
+                            setTheme(R.style.Red);
+                            themeId=R.style.Red;
+                        }
+                        SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
+                        editor.putInt("theme",themeId);
+                        editor.apply();
+                        //recreate();
+                        Intent intent=new Intent(WeatherActivity.this,WeatherActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION|IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                        finish();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+        loadBingPic();
+        nav_bing_pic=(ImageView)findViewById(R.id.nav_bing_pic);
     }
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if(drawerLayout!=null&&drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawers();
         }else{
             super.onBackPressed();

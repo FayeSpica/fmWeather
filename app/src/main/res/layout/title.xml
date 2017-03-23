@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
-        android:textColor="#FFF"
         android:textSize="20sp" />
 
     <TextView
@@ -20,7 +19,6 @@
         android:layout_centerInParent="true"
         android:layout_gravity="right"
         android:layout_marginRight="15dp"
-        android:textColor="#FFF"
         android:textSize="16sp" />
 
 </LinearLayout>

@@ -1,8 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#d30000</color>
-    <color name="colorPrimaryDark">#426286</color>
-    <color name="colorAccent">#d1426286</color>
-    <color name="textColor">#426286</color>
-    <color name="cardColor">#d1f1f1f1</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#4caf50</color>
+    <color name="colorPrimaryDark">#388e3c</color>
+    <color name="colorAccent">#d14caf50</color>
+    <color name="textColor">#fff</color>
+    <color name="cardColor">#4caf50</color>
+
+    <color name="colorPrimaryRed">#d30000</color>
+    <color name="colorPrimaryDarkRed">#d30000</color>
+    <color name="colorAccentRed">#d1d30000</color>
+    <color name="textColorRed">#FFF</color>
+    <color name="cardColorRed">#d1d30000</color>
+
+
+   
+
+    <color name="primary_text_material_darkM">#B3ffffff</color>
+    <color name="primary_text_material_lightM">#DE000000</color>
+    <color name="secondary_text_material_darkM">#B3ffffff</color>
+    <color name="secondary_text_material_lightM">#8A000000</color>
+
+    <color name="primary_material_darkM" >#FF212121</color>
+    <color name="primary_dark_material_darkM">#FF000000</color>
+    <color name="accent_material_darkM">#FF80CBC4</color>
+    <color name="background_material_darkM">#FF303030</color>
+    <color name="foreground_material_darkM">#FFFFFFFF</color>
+    <color name="colorPrimaryDarkM">@color/blackM</color>
+
+    <color name="primary_material_lightM" >#FFF5F5F5</color>
+    <color name="primary_dark_material_lightM">#FF757575</color>
+    <color name="accent_material_lightM">#FF009688</color>
+    <color name="background_material_lightM">#FFFAFAFA</color>
+    <color name="foreground_material_lightM">#FF000000</color>
+    <color name="colorPrimarylightM">@color/blackM</color>
+
+
+    <color name="colorBackgroundM">#303030</color>
+    <color name="safe_mode_text">#80ffffff</color>
+    <color name="whiteM">#ffffffff</color>
+    <color name="blackM">#ff000000</color>
+    <color name="transparentM">#00000000</color>
+    <color name="background_dark">#ff000000</color>
+    <color name="background_light">#ffffffff</color>
+
+
+    <color name="button_material_dark" tools:override="true">#ff5a595b</color>
+    <color name="button_material_light" tools:override="true">#ffd6d7d7</color>
+
+    <color name="switch_thumb_normal_material_dark_">#ffbdbdbd</color>
+    <color name="switch_thumb_normal_material_light_">#fff1f1f1</color>
+    <color name="switch_thumb_disabled_material_dark_">#ff616161</color>
+    <color name="switch_thumb_disabled_material_light_">#ffbdbdbd</color>
+
+    <!-- Text & foreground colors -->
+    <eat-comment />
+
+    <!-- 87% black -->
+    <color name="primary_text_default_material_light_">#de000000</color>
+    <!-- 54% black -->
+    <color name="secondary_text_default_material_light_">#8a000000</color>
+
+    <!-- 100% white -->
+    <color name="primary_text_default_material_dark_">#ffffffff</color>
+    <!-- 70% white -->
+    <color name="secondary_text_default_material_dark_">#b3ffffff</color>
+
+    <item name="hint_alpha_material_dark_" format="float" type="dimen">0.50</item>
+    <item name="hint_alpha_material_light_" format="float" type="dimen">0.54</item>
+
+    <item name="disabled_alpha_material_light_" format="float" type="dimen">0.26</item>
+    <item name="disabled_alpha_material_dark_" format="float" type="dimen">0.30</item>
+
+    <item name="highlight_alpha_material_light_" format="float" type="dimen">0.12</item>
+    <item name="highlight_alpha_material_dark_" format="float" type="dimen">0.20</item>
+    <item name="highlight_alpha_material_colored_" format="float" type="dimen">0.26</item>
+
 </resources>

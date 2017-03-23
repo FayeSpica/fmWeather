@@ -15,8 +15,7 @@
         android:layout_margin="15dp"
         android:onClick="onClick"
         android:text="fmWeather"
-        android:textAlignment="center"
-        android:textColor="#FFF" />
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/txv_api"
@@ -31,7 +30,6 @@
         android:onClick="onClick"
         android:text="数据基于@和风天气"
         android:textAlignment="center"
-        android:textColor="#FFF"
         android:textSize="10sp" />
 
 </RelativeLayout>

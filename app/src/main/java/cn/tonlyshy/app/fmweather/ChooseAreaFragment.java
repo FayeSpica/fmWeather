@@ -99,14 +99,14 @@ public class ChooseAreaFragment extends Fragment {
         titleText=(TextView)view.findViewById(R.id.title_text);
         backButton=(Button)view.findViewById(R.id.btn_back);
         listView=(ListView) view.findViewById(R.id.list_view_city);
-        arrayAdapter=new ArrayAdapter<String>(MyApplication.getContext(),android.R.layout.simple_list_item_1,dataList);
+        arrayAdapter=new ArrayAdapter<String>(MyApplication.getContext(),R.layout.citylist_item,dataList);
         listView.setAdapter(arrayAdapter);
-        listView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
         cityList=new ArrayList<>();
         countyList=new ArrayList<>();
         provinceList=new ArrayList<>();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         return view;
     }
 
@@ -189,7 +189,7 @@ public class ChooseAreaFragment extends Fragment {
             listView.setSelection(0);
             currentLevel=LEVEL_PROVINCE;
         }else{
-            String address="http://www.tonlyshy.cn:8080/static/weather/china.json";
+            String address="http://on9uzb4ll.bkt.clouddn.com/china.json";
             queryFromServer(address,"province");
             Log.i("query", "queryProvinces: "+address);
         }
@@ -207,7 +207,7 @@ public class ChooseAreaFragment extends Fragment {
             listView.setSelection(0);
             currentLevel=LEVEL_CITY;
         }else{
-            String address="http://www.tonlyshy.cn:8080/static/weather/"+selectedProvince.getId()+".json";
+            String address="http://on9uzb4ll.bkt.clouddn.com/"+selectedProvince.getId()+".json";
             queryFromServer(address,"city");
             Log.i("query", "queryCities: "+address);
         }
@@ -226,7 +226,7 @@ public class ChooseAreaFragment extends Fragment {
             listView.setSelection(0);
             currentLevel=LEVEL_COUNTY;
         }else{
-            String address="http://www.tonlyshy.cn:8080/static/weather/"+"conty_"+selectedCity.getCityId()+".json";
+            String address="http://on9uzb4ll.bkt.clouddn.com/"+"conty_"+selectedCity.getCityId()+".json";
             Log.i("query", "queryCounties: "+address);
             queryFromServer(address,"county");
         }

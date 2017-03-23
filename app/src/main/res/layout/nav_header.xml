@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="166dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_bing_pic"/>
+
+    <TextView
+        android:id="@+id/mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="liaowm5@gmail.com"
+        android:textColor="@color/textColor"
+        android:background="@color/transparentM"
+        android:textSize="14sp"
+        android:paddingLeft="15dp"/>
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/mail"
+        android:text="WeiMing Liao"
+        android:textColor="@color/textColor"
+        android:background="@color/transparentM"
+        android:textSize="14sp"
+        android:paddingLeft="15dp"/>
+</RelativeLayout>

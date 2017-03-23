@@ -53,14 +53,15 @@
 
                     </ScrollView>
             </android.support.v4.widget.SwipeRefreshLayout>
-        <fragment
+
+        <android.support.design.widget.NavigationView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/choose_area_fragment"
+            android:id="@+id/nav_view"
             android:layout_gravity="start"
-            android:name="cn.tonlyshy.app.fmweather.ChooseAreaFragment">
-
-        </fragment>
+            app:menu="@menu/nav_menu"
+            app:headerLayout="@layout/nav_header">
+        </android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>
 
         <android.support.design.widget.FloatingActionButton
