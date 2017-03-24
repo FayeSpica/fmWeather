@@ -73,7 +73,9 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             app:elevation="8dp"
-            app:srcCompat="@android:drawable/ic_menu_add" />
+            app:srcCompat="@drawable/ic_add"
+            android:scaleType="centerCrop"
+            />
     </android.support.design.widget.CoordinatorLayout>
 
 </FrameLayout>

@@ -106,7 +106,9 @@ public class DialogChooseFragment extends DialogFragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        if(currentLevel==LEVEL_CITY){
+                        if(currentLevel==LEVEL_PROVINCE){
+                            getActivity().onBackPressed();
+                        }else if(currentLevel==LEVEL_CITY){
                             queryProvinces();
                         }else if(currentLevel==LEVEL_COUNTY){
                             queryCities();
@@ -150,6 +152,9 @@ public class DialogChooseFragment extends DialogFragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentLevel==LEVEL_PROVINCE){
+                    getActivity().onBackPressed();
+                }
                 if(currentLevel==LEVEL_COUNTY){
                     queryCities();
                 }else if(currentLevel==LEVEL_CITY){
@@ -162,7 +167,7 @@ public class DialogChooseFragment extends DialogFragment {
 
     private void queryProvinces(){
         titleText.setText("中国");
-        backButton.setVisibility(View.GONE);
+        backButton.setVisibility(View.VISIBLE);
         provinceList= DataSupport.findAll(Province.class);
         if(provinceList.size()>0){
             dataList.clear();

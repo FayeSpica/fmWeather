@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AlertDialog;
@@ -40,57 +41,56 @@ public class DialogChangeThemeFragment extends DialogFragment {
 
     private List<Theme> themesList=new ArrayList<>();
 
+    private Button choosrThemeBtn;
+
     SharedPreferences prefs;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.choose_theme,container,false);
-        themesList.add(new Theme("黑",R.color.colorPrimaryDarkM,R.style.Dark));
-        themesList.add(new Theme("灰",R.color.colorPrimarylightM,R.style.AppTheme));
-        themesList.add(new Theme("绿",R.color.colorPrimary,R.style.Green));
-        themesList.add(new Theme("白",R.color.backgound_light,R.style.Light));
         themesList.add(new Theme("纯黑",android.R.color.background_dark,R.style.TrueDark));
         themesList.add(new Theme("网易红",R.color.colorPrimaryRed,R.style.Red));
         themesList.add(new Theme("基佬紫",android.R.color.holo_purple,R.style.Purple));
+        View view=inflater.inflate(R.layout.choose_theme,container,false);
+        themesList.add(new Theme("黑",R.color.colorPrimaryDarkM,R.style.Dark));
+        //themesList.add(new Theme("灰",R.color.colorPrimarylightM,R.style.AppTheme));
+        themesList.add(new Theme("绿",R.color.colorPrimary,R.style.Green));
+        themesList.add(new Theme("白",R.color.backgound_light,R.style.Light));
         ThemeAdapter themeAdapter=new ThemeAdapter(themesList);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.theme_recycler_view);
         // you can use LayoutInflater.from(getContext()).inflate(...) if you have xml layout
         mRecyclerView.setLayoutManager(new LinearLayoutManager(MyApplication.getContext()));
         mRecyclerView.setAdapter(themeAdapter);
+        choosrThemeBtn=(Button)view.findViewById(R.id.choose_theme_back);
         prefs= PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         return view;
     }
-    /*
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        themesList.add(new Theme("绿",R.color.colorPrimary));
-        themesList.add(new Theme("红",R.color.colorPrimaryRed));
-        themesList.add(new Theme("白",R.color.primary_material_darkM));
-        themesList.add(new Theme("黑",R.color.primary_material_lightM));
-        ThemeAdapter themeAdapter=new ThemeAdapter(themesList);
-        View view=inflater.inflate(R.layout.choose_area,container,false);
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.theme_recycler_view);
-        // you can use LayoutInflater.from(getContext()).inflate(...) if you have xml layout
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(MyApplication.getContext()));
-        mRecyclerView.setAdapter(themeAdapter);
-
-        return new AlertDialog.Builder(getActivity())
-                .setTitle("ThemeDialog")
-                .setView(mRecyclerView)
-                .setPositiveButton(android.R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                // do something
-                            }
-                        }
-                ).create();
-    }*/
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         View v=getView();
+        //Back pressed Logic for fragment
+        v.setFocusableInTouchMode(true);
+        v.requestFocus();
+        v.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            getActivity().onBackPressed();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+        choosrThemeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
 
@@ -170,6 +170,7 @@ public class DialogChangeThemeFragment extends DialogFragment {
                     //recreate();
                     Intent intent=new Intent(getActivity(),WeatherActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION| IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("themeRebootFlag",true);
                     startActivity(intent);
                     getActivity().overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                     getActivity().finish();
@@ -183,6 +184,7 @@ public class DialogChangeThemeFragment extends DialogFragment {
             Theme theme=mthemeList.get(position);
             holder.themeText.setText(theme.getThemeName());
             holder.themeImage.setBackgroundResource(theme.getColorResId());
+            holder.cardView.setElevation(new Float(16));
         }
 
         @Override

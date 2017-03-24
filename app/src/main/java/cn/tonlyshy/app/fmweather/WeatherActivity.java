@@ -1,6 +1,7 @@
 package cn.tonlyshy.app.fmweather;
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.IntentCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -90,6 +90,9 @@ public class WeatherActivity extends AppCompatActivity {
     private NavigationView navigationView;
 
     private SharedPreferences prefs;
+
+    private TextView bingPicCopyRightTxv;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         prefs= PreferenceManager.getDefaultSharedPreferences(this);
@@ -154,6 +157,8 @@ public class WeatherActivity extends AppCompatActivity {
                         String images=bingJsonArray.getJSONObject(0).toString();
                         JSONObject imagesObject=new JSONObject(images);
                         final String bingPicAddress="http://cn.bing.com"+imagesObject.getString("url");
+                        final String bingPicCopyRight=imagesObject.getString("copyright");
+                        //final String bingPicCopyRightLink=imagesObject.getString("copyrightLink");
                         Log.d("loadBingPic", "loadBingPic onResponse: bingPicAddress="+bingPicAddress);
                         SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                         editor.putString("bing_pic",bingPicAddress);
@@ -161,10 +166,13 @@ public class WeatherActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable(){
                             @Override
                             public void run() {
-                                //View v=navigationView.getHeaderView(R.layout.nav_header);
-                                nav_bing_pic=(ImageView)navigationView.findViewById(R.id.nav_bing_pic);
+                                nav_bing_pic=(ImageView)findViewById(R.id.nav_bing_pic);
+                                bingPicCopyRightTxv = (TextView) findViewById(R.id.copy_right);
                                 if(nav_bing_pic!=null) {
                                     Glide.with(WeatherActivity.this).load(bingPicAddress).into(nav_bing_pic);
+                                    if(bingPicCopyRightTxv!=null) {
+                                        bingPicCopyRightTxv.setText(bingPicCopyRight);
+                                    }
                                 }
                             }
                         });
@@ -285,24 +293,7 @@ public class WeatherActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //drawerLayout.openDrawer(GravityCompat.START);
-                int themeId=prefs.getInt("theme",R.style.AppTheme);
-                if(themeId!=R.style.AppTheme){
-                    setTheme(themeId);
-                    themeId=R.style.AppTheme;
-                }else{
-                    setTheme(R.style.Red);
-                    themeId=R.style.Red;
-                }
-                SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
-                editor.putInt("theme",themeId);
-                editor.apply();
-                //recreate();
-                Intent intent=new Intent(WeatherActivity.this,WeatherActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION|IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
-                finish();
+            Toast.makeText(WeatherActivity.this,"暂无新增城市功能～",Toast.LENGTH_SHORT).show();
             }
         });
         navigationView=(NavigationView)findViewById(R.id.nav_view);
@@ -322,21 +313,63 @@ public class WeatherActivity extends AppCompatActivity {
                         dialogChangeThemeFragment.show(getFragmentManager(),"themeDialog");
                         drawerLayout.closeDrawers();
                         break;
+                    case R.id.nav_about:
+                        AboutFragment aboutFragment=new AboutFragment();
+                        aboutFragment.show(getFragmentManager(),"aboutDialog");
+                        drawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_exit:
+                        finish();
+                        break;
                     default:
                         break;
                 }
                 return true;
             }
         });
-        loadBingPic();
         nav_bing_pic=(ImageView)findViewById(R.id.nav_bing_pic);
+        bingPicCopyRightTxv = (TextView) findViewById(R.id.copy_right);
+        loadBingPic();
+        boolean isReboot=getIntent().getBooleanExtra("themeRebootFlag",false);
+        if(isReboot){
+            drawerLayout.openDrawer(GravityCompat.START);
+            navigationView.setCheckedItem(R.id.nav_change_theme);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(500);/*Simple Animation*/
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                drawerLayout.closeDrawers();
+                            }
+                        });
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
     }
 
     @Override
     public void onBackPressed() {
         if(drawerLayout!=null&&drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawers();
-        }else{
+        }else if(getFragmentManager().findFragmentByTag("cityDialog")!=null){
+            Fragment fragment=getFragmentManager().findFragmentByTag("cityDialog");
+            fragment.onStop();
+            drawerLayout.openDrawer(GravityCompat.START);
+        }else if(getFragmentManager().findFragmentByTag("themeDialog")!=null){
+            Fragment fragment=getFragmentManager().findFragmentByTag("themeDialog");
+            fragment.onStop();
+            drawerLayout.openDrawer(GravityCompat.START);
+        }else if(getFragmentManager().findFragmentByTag("aboutDialog")!=null){
+            Fragment fragment=getFragmentManager().findFragmentByTag("aboutDialog");
+            fragment.onStop();
+            drawerLayout.openDrawer(GravityCompat.START);
+        }else {
             super.onBackPressed();
         }
     }
