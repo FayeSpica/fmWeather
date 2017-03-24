@@ -5,11 +5,17 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/background_dark</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:textColorPrimaryInverse">@color/background_light</item>
+        <item name="android:textColorSecondary">@color/background_light</item>
+        <item name="android:textColorSecondaryInverse">@color/background_light</item>
+        <item name="android:windowBackground">@color/textColor</item>
+        <item name="android:textColorPrimary">@color/background_light</item>
+        <item name="android:colorForeground">@color/background_light</item>
     </style>
 
     <style name="Red" parent="Theme.AppCompat.NoActionBar">
@@ -18,7 +24,7 @@
         <item name="colorAccent">@color/colorAccentRed</item>
         <item name="android:background">@color/colorPrimaryRed</item>
         <item name="android:textColor">@color/textColorRed</item>
-        <item name="android:textColorPrimary">?android:attr/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/textColorRed</item>
         <item name="android:colorBackground">@color/colorPrimaryRed</item>
         <item name="android:navigationBarColor">@color/colorPrimaryRed</item>
         <item name="android:colorForeground">@color/colorPrimaryRed</item>
@@ -27,7 +33,7 @@
         <item name="android:textColorSecondaryInverse">@color/colorPrimaryRed</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/primary_material_darkM</item>
         <item name="colorPrimaryDark">@color/primary_dark_material_darkM</item>
         <item name="colorAccent">@color/accent_material_darkM</item>
@@ -35,32 +41,85 @@
         <item name="android:colorBackground">@color/background_material_darkM</item>
         <item name="android:colorForeground">@color/foreground_material_darkM</item>
         <item name="android:navigationBarColor">@color/blackM</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDarkM</item>
-        <item name="android:textColorPrimary">@color/primary_text_material_darkM</item>
-        <item name="android:textColorPrimaryInverse">@color/primary_text_material_lightM</item>
-        <item name="android:textColorSecondary">@color/secondary_text_material_darkM</item>
+        <item name="android:statusBarColor">@color/background_material_darkM</item>
+        <item name="android:textColorPrimary">@color/background_light</item>
+        <item name="android:textColorPrimaryInverse">@color/secondary_text_material_lightM</item>
+        <item name="android:textColorSecondary">@color/background_light</item>
         <item name="android:textColorSecondaryInverse">@color/secondary_text_material_lightM</item>
         <item name="android:windowBackground">@color/colorBackgroundM</item>
 
-        <item name="android:textColor">@color/primary_text_material_darkM</item>
+        <item name="android:textColor">@color/background_light</item>
     </style>
 
-    <style name="Light" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/primary_material_lightM</item>
-        <item name="colorPrimaryDark">@color/primary_dark_material_lightM</item>
+    <style name="TrueDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@android:color/background_dark</item>
+        <item name="colorPrimaryDark">@android:color/background_dark</item>
+        <item name="colorAccent">@color/accent_material_darkM</item>
+        <item name="android:background">@android:color/background_dark</item>
+        <item name="android:colorBackground">@android:color/background_dark</item>
+        <item name="android:colorForeground">@android:color/background_dark</item>
+        <item name="android:navigationBarColor">@android:color/background_dark</item>
+        <item name="android:statusBarColor">@android:color/background_dark</item>
+        <item name="android:textColorPrimary">@color/background_light</item>
+        <item name="android:textColorPrimaryInverse">@android:color/background_dark</item>
+        <item name="android:textColorSecondary">@color/background_light</item>
+        <item name="android:textColorSecondaryInverse">@android:color/background_dark</item>
+        <item name="android:windowBackground">@android:color/background_dark</item>
+
+        <item name="android:textColor">@color/background_light</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.Design.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimarylightM</item>
+        <item name="colorPrimaryDark">@color/background_material_darkM</item>
         <item name="colorAccent">@color/accent_material_lightM</item>
         <item name="android:background">@color/background_material_lightM</item>
         <item name="android:colorBackground">@color/background_material_lightM</item>
-        <item name="android:colorForeground">@color/foreground_material_lightM</item>
-        <item name="android:navigationBarColor">@color/blackM</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDarkM</item>
-        <item name="android:textColorPrimary">@color/primary_text_material_lightM</item>
-        <item name="android:textColorPrimaryInverse">@color/primary_text_material_darkM</item>
-        <item name="android:textColorSecondary">@color/secondary_text_material_lightM</item>
-        <item name="android:textColorSecondaryInverse">@color/secondary_text_material_darkM</item>
+        <item name="android:colorForeground">@color/background_light</item>
+        <item name="android:navigationBarColor">@color/background_material_lightM</item>
+        <item name="android:statusBarColor">@color/colorPrimarylightM</item>
+        <item name="android:textColorPrimary">@color/background_light</item>
+        <item name="android:textColorPrimaryInverse">@color/background_material_lightM</item>
+        <item name="android:textColorSecondary">@color/background_light</item>
+        <item name="android:textColorSecondaryInverse">@color/background_material_lightM</item>
         <item name="android:windowBackground">@color/colorBackgroundM</item>
 
-        <item name="android:textColor">@color/primary_text_material_lightM</item>
+        <item name="android:textColor">@color/background_light</item>
     </style>
 
+    <style name="Purple" parent="Theme.Design.Light.NoActionBar">
+        <item name="colorPrimary">@android:color/holo_purple</item>
+        <item name="colorPrimaryDark">@android:color/holo_purple</item>
+        <item name="colorAccent">@android:color/darker_gray</item>
+        <item name="android:background">@android:color/holo_purple</item>
+        <item name="android:colorBackground">@android:color/holo_purple</item>
+        <item name="android:colorForeground">@color/background_light</item>
+        <item name="android:navigationBarColor">@android:color/holo_purple</item>
+        <item name="android:statusBarColor">@android:color/holo_purple</item>
+        <item name="android:textColorPrimary">@color/background_light</item>
+        <item name="android:textColorPrimaryInverse">@color/background_material_lightM</item>
+        <item name="android:textColorSecondary">@color/background_light</item>
+        <item name="android:textColorSecondaryInverse">@color/background_material_lightM</item>
+        <item name="android:windowBackground">@color/colorBackgroundM</item>
+
+        <item name="android:textColor">@color/background_light</item>
+    </style>
+
+    <style name="Light" parent="Theme.Design.Light.NoActionBar">
+        <item name="colorPrimary">@color/backgound_light</item>
+        <item name="colorPrimaryDark">@color/backgound_light</item>
+        <item name="colorAccent">@android:color/darker_gray</item>
+        <item name="android:background">@color/backgound_light</item>
+        <item name="android:colorBackground">@color/backgound_light</item>
+        <item name="android:colorForeground">@color/background_light</item>
+        <item name="android:navigationBarColor">@color/backgound_light</item>
+        <item name="android:statusBarColor">@color/backgound_light</item>
+        <item name="android:textColorPrimary">@color/background_light</item>
+        <item name="android:textColorPrimaryInverse">@color/backgound_light</item>
+        <item name="android:textColorSecondary">@color/background_light</item>
+        <item name="android:textColorSecondaryInverse">@color/backgound_light</item>
+        <item name="android:windowBackground">@color/colorBackgroundM</item>
+
+        <item name="android:textColor">@android:color/background_dark</item>
+    </style>
 </resources>

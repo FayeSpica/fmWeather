@@ -1,7 +1,6 @@
 package cn.tonlyshy.app.fmweather;
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -9,26 +8,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
-import android.support.annotation.AnimatorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.transition.Transition;
 import android.support.v4.content.IntentCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -43,11 +36,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import cn.tonlyshy.app.fmweather.db.County;
 import cn.tonlyshy.app.fmweather.gson.Forecast;
 import cn.tonlyshy.app.fmweather.gson.Weather;
 import cn.tonlyshy.app.fmweather.service.AutoUpdateService;
-import cn.tonlyshy.app.fmweather.util.DialogChooseFragment;
 import cn.tonlyshy.app.fmweather.util.HttpUtil;
 import cn.tonlyshy.app.fmweather.util.Utility;
 import okhttp3.Call;
@@ -323,27 +314,13 @@ public class WeatherActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.nav_chooseCity:
                         DialogChooseFragment fragment=new DialogChooseFragment();
-                        fragment.show(getFragmentManager(), "loginDialog");
+                        fragment.show(getFragmentManager(), "cityDialog");
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.nav_change_theme:
-                        int themeId=prefs.getInt("theme",R.style.AppTheme);
-                        if(themeId!=R.style.AppTheme){
-                            setTheme(themeId);
-                            themeId=R.style.AppTheme;
-                        }else{
-                            setTheme(R.style.Red);
-                            themeId=R.style.Red;
-                        }
-                        SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
-                        editor.putInt("theme",themeId);
-                        editor.apply();
-                        //recreate();
-                        Intent intent=new Intent(WeatherActivity.this,WeatherActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION|IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
-                        finish();
+                        DialogChangeThemeFragment dialogChangeThemeFragment=new DialogChangeThemeFragment();
+                        dialogChangeThemeFragment.show(getFragmentManager(),"themeDialog");
+                        drawerLayout.closeDrawers();
                         break;
                     default:
                         break;

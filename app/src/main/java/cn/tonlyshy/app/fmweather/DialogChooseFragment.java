@@ -1,4 +1,4 @@
-package cn.tonlyshy.app.fmweather.util;
+package cn.tonlyshy.app.fmweather;
 
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
@@ -25,13 +25,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.tonlyshy.app.fmweather.MainActivity;
-import cn.tonlyshy.app.fmweather.MyApplication;
-import cn.tonlyshy.app.fmweather.R;
-import cn.tonlyshy.app.fmweather.WeatherActivity;
 import cn.tonlyshy.app.fmweather.db.City;
 import cn.tonlyshy.app.fmweather.db.County;
 import cn.tonlyshy.app.fmweather.db.Province;
+import cn.tonlyshy.app.fmweather.util.HttpUtil;
+import cn.tonlyshy.app.fmweather.util.Utility;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;

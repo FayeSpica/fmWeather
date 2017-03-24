@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_delete"
-              android:title="delete" />
-        <item android:id="@+id/nav_setting"
-            android:title="setting" />
-        <item android:id="@+id/nav_download"
-            android:title="download" />
+        <item
+            android:id="@+id/nav_download"
+            android:title="下载壁纸" />
         <item android:id="@+id/nav_chooseCity"
             android:title="更换城市" />
         <item android:id="@+id/nav_change_theme"
             android:title="换肤" />
+        <item android:id="@+id/nav_setting"
+            android:title="设置" />
+
     </group>
 </menu>

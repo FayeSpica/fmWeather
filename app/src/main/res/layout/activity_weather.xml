@@ -36,7 +36,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:fitsSystemWindows="true">
+                            android:fitsSystemWindows="true"
+                            android:id="@+id/weather_content_linearlayout">
 
                             <include layout="@layout/title"/>
 
@@ -60,7 +61,8 @@
             android:id="@+id/nav_view"
             android:layout_gravity="start"
             app:menu="@menu/nav_menu"
-            app:headerLayout="@layout/nav_header">
+            app:headerLayout="@layout/nav_header"
+            app:itemTextAppearance="@color/textColor">
         </android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>
 
@@ -71,7 +73,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             app:elevation="8dp"
-            app:srcCompat="@drawable/desk_switch" />
+            app:srcCompat="@android:drawable/ic_menu_add" />
     </android.support.design.widget.CoordinatorLayout>
 
 </FrameLayout>
