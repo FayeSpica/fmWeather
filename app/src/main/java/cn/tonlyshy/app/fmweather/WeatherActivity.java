@@ -4,7 +4,9 @@ import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,11 +32,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import cn.tonlyshy.app.fmweather.gson.Forecast;
@@ -95,7 +104,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        prefs= PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
         int themeId=prefs.getInt("theme",R.style.AppTheme);
         if(themeId!=R.style.AppTheme){
             this.setTheme(themeId);
@@ -138,6 +147,23 @@ public class WeatherActivity extends AppCompatActivity {
         }
     }
 
+    private SimpleTarget target = new SimpleTarget<GlideBitmapDrawable>() {
+        @Override
+        public void onResourceReady(GlideBitmapDrawable bitmap, GlideAnimation glideAnimation) {
+            //图片加载完成
+            nav_bing_pic = (ImageView) findViewById(R.id.nav_bing_pic);
+            nav_bing_pic.setImageBitmap(bitmap.getBitmap());
+            //Glide.with(WeatherActivity.this).load(bitmap.getBitmap()).into(nav_bing_pic);
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext()).edit();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.getBitmap().compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            String imageBase64 = new String(Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT));
+            editor.putString("PicBase64",imageBase64 );
+            editor.commit();
+        }
+    };
+
+
     public void loadBingPic() {
         String requestBingPic="http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1";
         HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
@@ -160,22 +186,44 @@ public class WeatherActivity extends AppCompatActivity {
                         final String bingPicCopyRight=imagesObject.getString("copyright");
                         //final String bingPicCopyRightLink=imagesObject.getString("copyrightLink");
                         Log.d("loadBingPic", "loadBingPic onResponse: bingPicAddress="+bingPicAddress);
-                        SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
-                        editor.putString("bing_pic",bingPicAddress);
-                        editor.apply();
-                        runOnUiThread(new Runnable(){
-                            @Override
-                            public void run() {
-                                nav_bing_pic=(ImageView)findViewById(R.id.nav_bing_pic);
-                                bingPicCopyRightTxv = (TextView) findViewById(R.id.copy_right);
-                                if(nav_bing_pic!=null) {
-                                    Glide.with(WeatherActivity.this).load(bingPicAddress).into(nav_bing_pic);
-                                    if(bingPicCopyRightTxv!=null) {
-                                        bingPicCopyRightTxv.setText(bingPicCopyRight);
+                        prefs= PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
+                        nav_bing_pic = (ImageView) findViewById(R.id.nav_bing_pic);
+
+                        String temp = prefs.getString("PicBase64", "");
+
+                        if(temp.equals("")||(nav_bing_pic != null&&nav_bing_pic.getDrawable()==null)||prefs.getString("bing_pic",null)==null||(!bingPicAddress.equals(prefs.getString("bing_pic",null)))) {
+                            Log.d("Weather", "壁纸不存在: ");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    nav_bing_pic = (ImageView) findViewById(R.id.nav_bing_pic);
+                                    bingPicCopyRightTxv = (TextView) findViewById(R.id.copy_right);
+                                    if (nav_bing_pic != null) {
+                                        Bitmap bing=null;
+                                        Glide.with(WeatherActivity.this).load(bingPicAddress).into(target);
+                                        //Bitmap bing=Glide.with(WeatherActivity.this).load(bingPicAddress);
+                                        if (bingPicCopyRightTxv != null) {
+                                            bingPicCopyRightTxv.setText(bingPicCopyRight);
+                                        }
+                                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext()).edit();
+                                        editor.putString("bing_pic", bingPicAddress);
+                                        editor.apply();
                                     }
                                 }
+                            });
+                        }else{
+                            ByteArrayInputStream bais = new ByteArrayInputStream(Base64.decode(temp.getBytes(), Base64.DEFAULT));
+                            final Drawable  d=Drawable.createFromStream(bais, "");
+                            if (nav_bing_pic != null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        nav_bing_pic.setImageDrawable(d);
+                                    }
+                                });
                             }
-                        });
+                            //Glide.with(WeatherActivity.this).load(d).into(nav_bing_pic);
+                        }
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
@@ -208,7 +256,7 @@ public class WeatherActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(weather!=null){
-                            SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
+                            SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext()).edit();
                             editor.putString("weather",responseText);
                             editor.apply();
                             showWeatherInfo(weather);

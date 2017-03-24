@@ -89,7 +89,7 @@ public class DialogChooseFragment extends DialogFragment {
         cityList=new ArrayList<>();
         countyList=new ArrayList<>();
         provinceList=new ArrayList<>();
-        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
 
         return view;
     }

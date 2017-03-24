@@ -61,7 +61,7 @@ public class DialogChangeThemeFragment extends DialogFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(MyApplication.getContext()));
         mRecyclerView.setAdapter(themeAdapter);
         choosrThemeBtn=(Button)view.findViewById(R.id.choose_theme_back);
-        prefs= PreferenceManager.getDefaultSharedPreferences(getActivity());
+        prefs= PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
 
         return view;
     }
@@ -164,7 +164,7 @@ public class DialogChangeThemeFragment extends DialogFragment {
                 public void onClick(View v) {
                     int position=holder.getAdapterPosition();
                     Theme theme=mthemeList.get(position);
-                    SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+                    SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext()).edit();
                     editor.putInt("theme",theme.getThemeId());
                     editor.apply();
                     //recreate();

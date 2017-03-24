@@ -69,7 +69,7 @@
         <item name="android:textColor">@color/background_light</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.Design.Light.NoActionBar">
+    <style name="Grey" parent="Theme.Design.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimarylightM</item>
         <item name="colorPrimaryDark">@color/background_material_darkM</item>
         <item name="colorAccent">@color/accent_material_lightM</item>
@@ -121,5 +121,23 @@
         <item name="android:windowBackground">@color/colorBackgroundM</item>
 
         <item name="android:textColor">@android:color/background_dark</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.Design.Light.NoActionBar">
+        <item name="colorPrimary">@android:color/background_dark</item>
+        <item name="colorPrimaryDark">@android:color/background_dark</item>
+        <item name="colorAccent">@color/accent_material_darkM</item>
+        <item name="android:background">@android:color/background_dark</item>
+        <item name="android:colorBackground">@android:color/background_dark</item>
+        <item name="android:colorForeground">@android:color/background_dark</item>
+        <item name="android:navigationBarColor">@android:color/background_dark</item>
+        <item name="android:statusBarColor">@android:color/background_dark</item>
+        <item name="android:textColorPrimary">@color/background_light</item>
+        <item name="android:textColorPrimaryInverse">@android:color/background_dark</item>
+        <item name="android:textColorSecondary">@color/background_light</item>
+        <item name="android:textColorSecondaryInverse">@android:color/background_dark</item>
+        <item name="android:windowBackground">@android:color/background_dark</item>
+
+        <item name="android:textColor">@color/background_light</item>
     </style>
 </resources>
