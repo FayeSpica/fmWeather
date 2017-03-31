@@ -4,10 +4,10 @@ A simple weather app</br>
 简单的天气App, MaterialDesign界面设计
 ## ScreenShots
 <div>
-<img width="240" height="420" src="https://github.com/SteiensGate/fmWeather/raw/master/Screenshots/Screenshot_20170325-030816-for-134072-o_1bc0rnafm1pq216r21pqm6kg1ubc26-uid-556550"/>
-<img width="240" height="420" src="https://github.com/SteiensGate/fmWeather/raw/master/Screenshots/Screenshot_20170325-022703-for-134072-o_1bc0ro28n1k911a831mbr1mrn4h52f-uid-556550"/>
-<img width="240" height="420" src="https://github.com/SteiensGate/fmWeather/raw/master/Screenshots/Screenshot_20170325-030812-for-134072-o_1bc0ro28ntb1t391fp9tlt147j2h-uid-556550"/>
-<img width="240" height="420" src="https://github.com/SteiensGate/fmWeather/raw/master/Screenshots/Screenshot_20170325-030829-for-134072-o_1bc0ro28ofsh115lmak1j6rpd62i-uid-556550"/>
+<img width="240" height="420" src="https://github.com/SteiensGate/fmWeather/raw/master/Screenshots/Screenshot_20170325-030816.png"/>
+<img width="240" height="420" src="https://github.com/SteiensGate/fmWeather/raw/master/Screenshots/Screenshot_20170325-022703.png"/>
+<img width="240" height="420" src="https://github.com/SteiensGate/fmWeather/raw/master/Screenshots/Screenshot_20170325-030812.png"/>
+<img width="240" height="420" src="https://github.com/SteiensGate/fmWeather/raw/master/Screenshots/Screenshot_20170325-030829.png"/>
 </div>
 
 ## Credits
