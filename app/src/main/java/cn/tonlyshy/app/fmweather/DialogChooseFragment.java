@@ -90,7 +90,7 @@ public class DialogChooseFragment extends DialogFragment {
         countyList=new ArrayList<>();
         provinceList=new ArrayList<>();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
-
+        currentLevel=LEVEL_PROVINCE;
         return view;
     }
 

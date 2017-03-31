@@ -71,6 +71,7 @@ public class DialogChangeThemeFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
         View v=getView();
         //Back pressed Logic for fragment
+        /*
         v.setFocusableInTouchMode(true);
         v.requestFocus();
         v.setOnKeyListener(new View.OnKeyListener() {
@@ -84,7 +85,7 @@ public class DialogChangeThemeFragment extends DialogFragment {
                 }
                 return false;
             }
-        });
+        });*/
         choosrThemeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

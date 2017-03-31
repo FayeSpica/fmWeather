@@ -15,10 +15,10 @@ public class MainActivity extends AppCompatActivity {
         int themeId=prefs.getInt("theme",R.style.AppTheme);
         Log.d("GG", "onCreate: themeId="+themeId);
         if(themeId!=R.style.AppTheme){
-            this.setTheme(themeId);
+           this.setTheme(themeId);
         }
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         if(prefs.getString("weather",null)!=null){
             Intent intent=new Intent(this,WeatherActivity.class);

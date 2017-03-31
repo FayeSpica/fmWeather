@@ -1,20 +1,27 @@
 package cn.tonlyshy.app.fmweather;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -43,6 +50,9 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import cn.tonlyshy.app.fmweather.gson.Forecast;
@@ -102,12 +112,15 @@ public class WeatherActivity extends AppCompatActivity {
 
     private TextView bingPicCopyRightTxv;
 
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         prefs= PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
         int themeId=prefs.getInt("theme",R.style.AppTheme);
         if(themeId!=R.style.AppTheme){
             this.setTheme(themeId);
+        }else{
+            this.setTheme(R.style.Dark);
         }
         super.onCreate(savedInstanceState);
         if(Build.VERSION.SDK_INT>=21){
@@ -163,6 +176,44 @@ public class WeatherActivity extends AppCompatActivity {
         }
     };
 
+    private void saveBingPic(){
+        boolean isPermmited=false;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            isPermmited=false;
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+            saveBingPic();
+        }
+        else{
+            isPermmited=true;
+        }
+        if(isPermmited){
+            prefs= PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
+            String temp = prefs.getString("PicBase64", "");
+            if(!temp.equals("")) {
+                ByteArrayInputStream bais = new ByteArrayInputStream(Base64.decode(temp.getBytes(), Base64.DEFAULT));
+                //final Drawable  d=Drawable.createFromStream(bais, "");
+                String fileName="";
+                String descri="Bing";
+                if(bingPicCopyRightTxv!=null){
+                    fileName=bingPicCopyRightTxv.getText().toString().split(",")[0]==null? "":bingPicCopyRightTxv.getText().toString().split(",")[0];
+                    if(bingPicCopyRightTxv.getText().toString().split(",").length>1) {
+                        descri = bingPicCopyRightTxv.getText().toString().split(",")[1] == null ? "" : bingPicCopyRightTxv.getText().toString().split(",")[1];
+                    }
+                    Log.d("WeatherActivity", "saveBingPic: fileName="+fileName+"  descri="+descri);
+                }
+                MediaStore.Images.Media.insertImage(getContentResolver(), BitmapFactory.decodeStream(bais), fileName, descri);
+                Toast.makeText(this,"保存成功~",Toast.LENGTH_SHORT).show();
+            }else{
+                loadBingPic();
+                saveBingPic();
+            }
+        }else{
+            Log.d("GG", "saveBingPic: no Permssion");
+        }
+    }
 
     public void loadBingPic() {
         String requestBingPic="http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1";
@@ -351,6 +402,9 @@ public class WeatherActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 //mDrawerLayout.closeDrawers();
                 switch (item.getItemId()){
+                    case R.id.nav_download:
+                        saveBingPic();
+                        break;
                     case R.id.nav_chooseCity:
                         DialogChooseFragment fragment=new DialogChooseFragment();
                         fragment.show(getFragmentManager(), "cityDialog");
